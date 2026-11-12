@@ -125,8 +125,6 @@ docker build -t diabetes-health-indicators .
 docker run --rm -p 9696:9696 diabetes-health-indicators
 ```
 
-Then send the API request above to `http://localhost:9696/predict`.
-
 ## Limitations and next steps
 
 - The balanced Kaggle subset does not reflect the original population class prevalence.
