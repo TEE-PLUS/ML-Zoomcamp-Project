@@ -125,6 +125,86 @@ docker build -t diabetes-health-indicators .
 docker run --rm -p 9696:9696 diabetes-health-indicators
 ```
 
+## Deploy to the cloud (AWS Elastic Beanstalk)
+
+This project is already configured for a Docker-based Elastic Beanstalk deployment through `.elasticbeanstalk/config.yml`. The app listens on port `9696`, and the container image is defined by `Dockerfile`.
+
+1. Install the AWS Elastic Beanstalk CLI if you do not already have it:
+
+```bash
+pip install awsebcli
+```
+
+2. Configure AWS credentials and select the region used by the project:
+
+```bash
+aws configure
+```
+
+3. Initialize the Elastic Beanstalk app if it has not already been created:
+
+```bash
+eb init diabetes-health-indicators --platform docker --region us-east-2
+```
+
+If the repository already contains `.elasticbeanstalk/config.yml`, this step may be unnecessary. You can skip straight to creating the environment.
+
+4. Create the environment and deploy the app:
+
+```bash
+eb create diabetes-health-indicators-env
+```
+
+5. Deploy updates whenever you change code or rebuild the model:
+
+```bash
+eb deploy
+```
+
+6. Open the running app in a browser or check its status:
+
+```bash
+eb open
+# or
+eb status
+```
+
+After deployment, send requests to the Elastic Beanstalk URL at the `/predict` endpoint. Example:
+
+```bash
+curl -X POST "http://<your-eb-url>/predict" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "highbp": 1,
+    "highchol": 1,
+    "cholcheck": 1,
+    "bmi": 25,
+    "smoker": 0,
+    "stroke": 0,
+    "heartdiseaseorattack": 0,
+    "physactivity": 1,
+    "fruits": 1,
+    "veggies": 1,
+    "hvyalcoholconsump": 0,
+    "anyhealthcare": 1,
+    "nodocbccost": 0,
+    "genhlth": 2,
+    "menthlth": 0,
+    "physhlth": 0,
+    "diffwalk": 0,
+    "sex": 0,
+    "age": 9,
+    "education": 6,
+    "income": 8
+  }'
+```
+
+If the environment is failing to start, check logs with:
+
+```bash
+eb logs
+```
+
 ## Limitations and next steps
 
 - The balanced Kaggle subset does not reflect the original population class prevalence.

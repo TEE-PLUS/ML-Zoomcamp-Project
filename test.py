@@ -1,6 +1,8 @@
 import requests
 
-url = 'http://localhost:9696/predict'
+host = 'diabetes-health-indicators-env.eba-kabjyhbg.us-east-2.elasticbeanstalk.com.'
+url = f'http://{host}/predict'
+#url = 'http://localhost:9696/predict'
 
 customer = {
     'highbp': 1.0,

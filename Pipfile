@@ -10,8 +10,10 @@ flask = "*"
 gunicorn = "*"
 xgboost = "*"
 ski = "*"
+awscli = "*"
 
 [dev-packages]
+awsebcli = "*"
 
 [requires]
 python_version = "3.12"
